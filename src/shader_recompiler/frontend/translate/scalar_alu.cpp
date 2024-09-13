@@ -349,11 +349,19 @@ void Translator::S_AND_B64(NegateMode negate, const GcnInst& inst) {
         switch (operand.field) {
         case OperandField::VccLo:
             return ir.GetVcc();
-        case OperandField::ExecLo:
+        case OperandField::ExecLo:  
             return ir.GetExec();
         case OperandField::ScalarGPR:
             return ir.GetThreadBitScalarReg(IR::ScalarReg(operand.code));
+        case OperandField::ConstZero:
+            return ir.Imm1(false);
+        case OperandField::SignedConstIntNeg:
+            LOG_INFO(Render_Recompiler, "Opcode: {}", (-s32(operand.code) + SignedConstIntNegMin - 1)); 
+            ASSERT_MSG(-s32(operand.code) + SignedConstIntNegMin - 1 == -1, "SignedConstIntNeg must be -1"); 
+            return ir.Imm1(true);
         default:
+            LOG_INFO(Render_Recompiler, "Opfield: {}", std::bit_cast<u32>(operand.field));   
+            LOG_INFO(Render_Recompiler, "Opcode: {}", (-s32(operand.code) + SignedConstIntNegMin - 1));   
             UNREACHABLE();
         }
     };

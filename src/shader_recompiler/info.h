@@ -181,7 +181,7 @@ struct Info {
         const u32* base = user_data.data();
         if (ptr_index != IR::NumScalarRegs) {
             std::memcpy(&base, &user_data[ptr_index], sizeof(base));
-            base = reinterpret_cast<const u32*>(VAddr(base) & 0xFFFFFFFFFFFFULL);
+            base = reinterpret_cast<const u32*>(VAddr(base) & 0xFFFFFFFF);
         }
         std::memcpy(&data, base + dword_offset, sizeof(T));
         return data;

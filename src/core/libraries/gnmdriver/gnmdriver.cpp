@@ -330,6 +330,7 @@ static void DumpCommandList(std::span<const u32> cmd_list, const std::string& po
         return;
     }
     const auto filename = fmt::format("{:08}_{}", frames_submitted, postfix);
+    LOG_INFO(Render_Recompiler, "File: {} | VAddr: {}", filename, VAddr(cmd_list.data()));
     const auto file = IOFile{dump_dir / filename, FileAccessMode::Write};
     file.WriteSpan(cmd_list);
 }
